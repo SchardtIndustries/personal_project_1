@@ -7,11 +7,12 @@ from draw_task import draw_task
 from draw_button import draw_button
 import os
 import json
+import datetime
 
 save_data = {}
 
-if os.path.exists("savegame.txt"):
-    with open("savegame.txt", "r") as f:
+if os.path.exists("savegame.json"):
+    with open("savegame.json", "r") as f:
         try:
             save_data = json.load(f)
             score = save_data.get("score", 0)
@@ -20,7 +21,6 @@ if os.path.exists("savegame.txt"):
             pine_needle_owned = save_data.get("pine_needle_owned", False)
             forest_green_owned = save_data.get("forest_green_owned", False)
             dark_olive_owned = save_data.get("dark_olive_owned", False)
-            # Load costs and values if saved
             pale_olive_cost = save_data.get("pale_olive_cost", pale_olive_cost)
             pale_olive_value = save_data.get("pale_olive_value", pale_olive_value)
             olive_green_cost = save_data.get("olive_green_cost", olive_green_cost)
@@ -31,8 +31,8 @@ if os.path.exists("savegame.txt"):
             forest_green_value = save_data.get("forest_green_value", forest_green_value)
             dark_olive_cost = save_data.get("dark_olive_cost", dark_olive_cost)
             dark_olive_value = save_data.get("dark_olive_value", dark_olive_value)
+            last_save = save_data.get("last_save", datetime.datetime.now().isoformat())
         except:
-            # If error, initialize these variables
             score = 0
             pale_olive_owned = olive_green_owned = pine_needle_owned = forest_green_owned = dark_olive_owned = False
 else:
@@ -61,6 +61,8 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.VIDEORESIZE:
+            width, height = event.size
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_pos = event.pos
             if task1.collidepoint(mouse_pos):
@@ -128,7 +130,7 @@ while running:
     task5, dark_olive_draw, dark_olive_length, score = draw_task(dark_olive, 290, dark_olive_value, dark_olive_draw, dark_olive_length, dark_olive_speed, score)
     dark_olive_buy, dark_manager_buy = draw_button(dark_olive, 250, dark_olive_cost, dark_olive_owned, dark_manager_cost)   
 
-    display_score = font.render("Cash:" + str(round(score, 2)), True, black)
+    display_score = font.render("Cash: $" + str(round(score, 2)), True, black)
     screen.blit(display_score, (200, 10))
 
 
@@ -154,10 +156,11 @@ while running:
         "forest_green_cost": forest_green_cost,
         "forest_green_value": forest_green_value,
         "dark_olive_cost": dark_olive_cost,
-        "dark_olive_value": dark_olive_value
+        "dark_olive_value": dark_olive_value,
+        "last_save": datetime.datetime.now().isoformat()
     }
 
-    with open("savegame.txt", "w") as f:
+    with open("savegame.json", "w") as f:
         json.dump(save_data, f)
 
 pygame.quit()

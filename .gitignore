@@ -1,1 +1,5 @@
-savegame.txt
+savegame.json
+
+*.log
+__pycache__/
+.env
