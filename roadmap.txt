@@ -1,0 +1,16 @@
+I plan to make alot of changes and updates to this game.  The current version is a very rough outline of the game 
+    (and my first stab at making something myself) and hasnt even been made into a .exe to be shared yet.
+My plans include:
+    Scaling objects with window
+    Adding a "time since you last played" window on opening with score generated while away values
+    Moving buy more and buy managers to seperate screens
+    Adding bonus items to buy to increase score multipliers
+    Adding bonus items to increase speed of tasks
+    Adding an acheivements screen to grant some sort of bonus currency
+    Changing tasks from the standard idle game left to right bars to something different, what that is I have no idea 
+        at this time.
+    Updateing the graphics
+    Theming the game, currently im thinking its gonna be a cabin builder or something similar.  
+
+road map most recently updated: 8 Sept. 2025
+
