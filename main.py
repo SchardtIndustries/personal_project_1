@@ -5,9 +5,45 @@ from game_variables import *
 from display_variables import *
 from draw_task import draw_task
 from draw_button import draw_button
+import os
+import json
 
-global score
-score = 0
+save_data = {}
+
+if os.path.exists("savegame.txt"):
+    with open("savegame.txt", "r") as f:
+        try:
+            save_data = json.load(f)
+            score = save_data.get("score", 0)
+            pale_olive_owned = save_data.get("pale_olive_owned", False)
+            olive_green_owned = save_data.get("olive_green_owned", False)
+            pine_needle_owned = save_data.get("pine_needle_owned", False)
+            forest_green_owned = save_data.get("forest_green_owned", False)
+            dark_olive_owned = save_data.get("dark_olive_owned", False)
+            # Load costs and values if saved
+            pale_olive_cost = save_data.get("pale_olive_cost", pale_olive_cost)
+            pale_olive_value = save_data.get("pale_olive_value", pale_olive_value)
+            olive_green_cost = save_data.get("olive_green_cost", olive_green_cost)
+            olive_green_value = save_data.get("olive_green_value", olive_green_value)
+            pine_needle_cost = save_data.get("pine_needle_cost", pine_needle_cost)
+            pine_needle_value = save_data.get("pine_needle_value", pine_needle_value)
+            forest_green_cost = save_data.get("forest_green_cost", forest_green_cost)
+            forest_green_value = save_data.get("forest_green_value", forest_green_value)
+            dark_olive_cost = save_data.get("dark_olive_cost", dark_olive_cost)
+            dark_olive_value = save_data.get("dark_olive_value", dark_olive_value)
+        except:
+            # If error, initialize these variables
+            score = 0
+            pale_olive_owned = olive_green_owned = pine_needle_owned = forest_green_owned = dark_olive_owned = False
+else:
+    score = 0
+    pale_olive_owned = save_data.get("pale_olive_owned", False)
+    olive_green_owned = save_data.get("olive_green_owned", False)
+    pine_needle_owned = save_data.get("pine_needle_owned", False)
+    forest_green_owned = save_data.get("forest_green_owned", False)
+    dark_olive_owned = save_data.get("dark_olive_owned", False)
+
+
 
 running = True
 while running:
@@ -53,15 +89,15 @@ while running:
                 score -= dark_manager_cost
                 dark_olive_owned = True
             if pale_olive_buy and pale_olive_buy.collidepoint(mouse_pos) and score >= pale_olive_cost:
-                pale_olive_value += (pale_olive_value * 1.1)
+                pale_olive_value = (pale_olive_value * 1.1)
                 score -= pale_olive_cost
                 pale_olive_cost = (pale_olive_cost * 1.1)
             if olive_green_buy and olive_green_buy.collidepoint(mouse_pos) and score >= olive_green_cost:
-                olive_green_value += (olive_green_value * 1.15)
+                olive_green_value = (olive_green_value * 1.15)
                 score -= olive_green_cost
                 olive_green_cost = (olive_green_cost * 1.25)
             if pine_needle_buy and pine_needle_buy.collidepoint(mouse_pos) and score >= pine_needle_cost:
-                pine_needle_value += (pine_needle_value * 1.2)
+                pine_needle_value = (pine_needle_value * 1.2)
                 score -= pine_needle_cost
                 pine_needle_cost = (pine_needle_cost * 1.5)
             if forest_green_buy and forest_green_buy.collidepoint(mouse_pos) and score >= forest_green_cost:
@@ -101,4 +137,27 @@ while running:
     hiremanager = font.render("Hire Manager", True, black)
     screen.blit(hiremanager, (10, 385))
     pygame.display.flip()
-pygame.quit
+
+    save_data = {
+        "score": score,
+        "pale_olive_owned": pale_olive_owned,
+        "olive_green_owned": olive_green_owned,
+        "pine_needle_owned": pine_needle_owned,
+        "forest_green_owned": forest_green_owned,
+        "dark_olive_owned": dark_olive_owned,
+        "pale_olive_cost": pale_olive_cost,
+        "pale_olive_value": pale_olive_value,
+        "olive_green_cost": olive_green_cost,
+        "olive_green_value": olive_green_value,
+        "pine_needle_cost": pine_needle_cost,
+        "pine_needle_value": pine_needle_value,
+        "forest_green_cost": forest_green_cost,
+        "forest_green_value": forest_green_value,
+        "dark_olive_cost": dark_olive_cost,
+        "dark_olive_value": dark_olive_value
+    }
+
+    with open("savegame.txt", "w") as f:
+        json.dump(save_data, f)
+
+pygame.quit()
