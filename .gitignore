@@ -3,3 +3,4 @@ savegame.json
 *.log
 __pycache__/
 .env
+holding.py

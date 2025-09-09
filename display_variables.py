@@ -17,3 +17,5 @@ popup_surface.fill((misty_dawn))
 #upgrade screen:
 upg_screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
 show_upgrade_screen = False
+manager_screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
+show_manager_screen = False
