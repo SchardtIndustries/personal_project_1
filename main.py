@@ -8,8 +8,10 @@ from draw_button import draw_button
 import os
 import json
 import datetime
+from menu_buttons import draw_to_button
 
 save_data = {}
+
 
 if os.path.exists("savegame.json"):
     with open("savegame.json", "r") as f:
@@ -42,8 +44,6 @@ else:
     pine_needle_owned = save_data.get("pine_needle_owned", False)
     forest_green_owned = save_data.get("forest_green_owned", False)
     dark_olive_owned = save_data.get("dark_olive_owned", False)
-
-
 
 running = True
 while running:
@@ -130,8 +130,11 @@ while running:
     task5, dark_olive_draw, dark_olive_length, score = draw_task(dark_olive, 290, dark_olive_value, dark_olive_draw, dark_olive_length, dark_olive_speed, score)
     dark_olive_buy, dark_manager_buy = draw_button(dark_olive, 250, dark_olive_cost, dark_olive_owned, dark_manager_cost)   
 
+    task6 = draw_to_button(mountain_gray, 5, 90, 410, 30, "Upgrades")
+    task7 = draw_to_button(mountain_gray, 105, 90, 410, 30, "Managers")
+    task8 = draw_to_button(mountain_gray, 205, 90, 410, 30, "Tasks")
     display_score = font.render("Cash: $" + str(round(score, 2)), True, black)
-    screen.blit(display_score, (200, 10))
+    screen.blit(display_score, (10, 10))
 
 
     buymore = font.render("Buy More", True, black)
