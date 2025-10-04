@@ -1,13 +1,14 @@
 import pygame
+import os
+import json
+import datetime
 pygame.init()
 from color_pallete import *
 from game_variables import *
 from display_variables import *
 from draw_task import draw_task
 from draw_color_button import draw_color_button
-import os
-import json
-import datetime
+from draw_manager_button import draw_manager_button
 from menu_buttons import draw_to_button
 
 save_data = {}
@@ -49,20 +50,23 @@ else:
 running = True
 while running:
     timer.tick(frame_rate)
-
+    if pale_olive_manager and not pale_olive_draw:
+        pale_olive_draw = True
+    if olive_green_manager and not olive_green_draw:
+        olive_green_draw = True
+    if pine_needle_manager and not pine_needle_draw:
+        pine_needle_draw = True
+    if forest_green_manager and not forest_green_draw:
+        forest_green_draw = True
+    if dark_olive_manager and not dark_olive_draw:
+        dark_olive_draw = True
+    if saddle_manager and not saddle_draw:
+        saddle_draw = True
+    if rustic_manager and not rustic_draw:
+        rustic_draw = True
 
     if not show_task_screen and not show_manager_screen and not show_upgrade_screen and not show_ach_screen and not show_store_screen:
         screen.fill(background)
-        if pale_olive_owned and not pale_olive_draw:
-            pale_olive_draw = True
-        if olive_green_owned and not olive_green_draw:
-            olive_green_draw = True
-        if pine_needle_owned and not pine_needle_draw:
-            pine_needle_draw = True
-        if forest_green_owned and not forest_green_draw:
-            forest_green_draw = True
-        if dark_olive_owned and not dark_olive_draw:
-            dark_olive_draw = True
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -84,15 +88,15 @@ while running:
                     saddle_draw = True
                 if task7.collidepoint(mouse_pos):
                     rustic_draw = True
-                if task8.collidepoint(mouse_pos):
+                if upgrade_screen_select.collidepoint(mouse_pos):
                     show_upgrade_screen = True
-                if task9.collidepoint(mouse_pos):
+                if manager_screen_select.collidepoint(mouse_pos):
                     show_manager_screen = True
-                if task10.collidepoint(mouse_pos):
+                if task_screen_select.collidepoint(mouse_pos):
                     show_task_screen = True
-                if task11.collidepoint(mouse_pos):
+                if trophy_screen_select.collidepoint(mouse_pos):
                     show_ach_screen = True
-                if task12.collidepoint(mouse_pos):
+                if store_screen_select.collidepoint(mouse_pos):
                     show_store_screen = True    
         task1, pale_olive_draw, pale_olive_length, score = draw_task(pale_olive, 50, pale_olive_value, pale_olive_draw, pale_olive_length, pale_olive_speed, score)
         task2, olive_green_draw, olive_green_length, score = draw_task(olive_green, 95, olive_green_value, olive_green_draw, olive_green_length, olive_green_speed, score)
@@ -101,11 +105,11 @@ while running:
         task5, dark_olive_draw, dark_olive_length, score = draw_task(dark_olive, 230, dark_olive_value, dark_olive_draw, dark_olive_length, dark_olive_speed, score)
         task6, saddle_draw, saddle_length, score = draw_task(saddle_brown, 275, saddle_value, saddle_draw, saddle_length, saddle_speed, score)
         task7, rustic_draw, rustic_length, score = draw_task(rustic_brown, 320, rustic_value, rustic_draw, rustic_length, rustic_speed, score)
-        task8 = draw_to_button(mountain_gray, 5, 90, 410, 30, "Upgrades")
-        task9 = draw_to_button(mountain_gray, 105, 90, 410, 30, "Managers")
-        task10 = draw_to_button(mountain_gray, 205, 90, 410, 30, "Tasks")
-        task11 = draw_to_button(mountain_gray, 10, 135, 370, 30, "Trophies")
-        task12 = draw_to_button(mountain_gray, 155, 135, 370, 30, "Store")
+        upgrade_screen_select = draw_to_button(mountain_gray, 5, 90, 410, 30, "Upgrades")
+        manager_screen_select = draw_to_button(mountain_gray, 105, 90, 410, 30, "Managers")
+        task_screen_select = draw_to_button(mountain_gray, 205, 90, 410, 30, "Tasks")
+        trophy_screen_select = draw_to_button(mountain_gray, 10, 135, 370, 30, "Trophies")
+        store_screen_select = draw_to_button(mountain_gray, 155, 135, 370, 30, "Store")
 
 
     if show_task_screen and not show_manager_screen and not show_upgrade_screen and not show_ach_screen and not show_store_screen:
@@ -123,25 +127,25 @@ while running:
                 width, height = event.size
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = event.pos
-                if task8.collidepoint(mouse_pos):
+                if upgrade_screen_select.collidepoint(mouse_pos):
                     show_upgrade_screen = True
                     show_task_screen = False
-                if task9.collidepoint(mouse_pos):
+                if manager_screen_select.collidepoint(mouse_pos):
                     show_manager_screen = True
                     show_task_screen = False
-                if task10.collidepoint(mouse_pos):
+                if task_screen_select.collidepoint(mouse_pos):
                     show_task_screen = False
-                if task11.collidepoint(mouse_pos):
+                if trophy_screen_select.collidepoint(mouse_pos):
                     show_ach_screen = True
                     show_task_screen = False
-                if task12.collidepoint(mouse_pos):
+                if store_screen_select.collidepoint(mouse_pos):
                     show_store_screen = True
                     show_task_screen = False    
-        task8 = draw_to_button(mountain_gray, 5, 90, 410, 30, "Upgrades")
-        task9 = draw_to_button(mountain_gray, 105, 90, 410, 30, "Managers")
-        task10 = draw_to_button(mountain_gray, 205, 90, 410, 30, "Home")
-        task11 = draw_to_button(mountain_gray, 10, 135, 370, 30, "Trophies")
-        task12 = draw_to_button(mountain_gray, 155, 135, 370, 30, "Store")    
+        upgrade_screen_select = draw_to_button(mountain_gray, 5, 90, 410, 30, "Upgrades")
+        manager_screen_select = draw_to_button(mountain_gray, 105, 90, 410, 30, "Managers")
+        task_screen_select = draw_to_button(mountain_gray, 205, 90, 410, 30, "Home")
+        trophy_screen_select = draw_to_button(mountain_gray, 10, 135, 370, 30, "Trophies")
+        store_screen_select = draw_to_button(mountain_gray, 155, 135, 370, 30, "Store")    
 
 
     if not show_task_screen and show_manager_screen and not show_upgrade_screen and not show_ach_screen and not show_store_screen:
@@ -159,24 +163,25 @@ while running:
                 width, height = event.size
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = event.pos
-                if task8.collidepoint(mouse_pos):
+                if upgrade_screen_select.collidepoint(mouse_pos):
                     show_upgrade_screen = True
                     show_manager_screen = False
-                if task9.collidepoint(mouse_pos):
+                if manager_screen_select.collidepoint(mouse_pos):
                     show_manager_screen = False
-                if task10.collidepoint(mouse_pos):
+                if task_screen_select.collidepoint(mouse_pos):
                     show_manager_screen = False
-                if task11.collidepoint(mouse_pos):
+                if trophy_screen_select.collidepoint(mouse_pos):
                     show_ach_screen = True
                     show_manager_screen = False
-                if task12.collidepoint(mouse_pos):
+                if store_screen_select.collidepoint(mouse_pos):
                     show_store_screen = True
-                    show_manager_screen = False    
-        task8 = draw_to_button(mountain_gray, 5, 90, 410, 30, "Upgrades")
-        task9 = draw_to_button(mountain_gray, 105, 90, 410, 30, "Home")
-        task10 = draw_to_button(mountain_gray, 205, 90, 410, 30, "Tasks")
-        task11 = draw_to_button(mountain_gray, 10, 135, 370, 30, "Trophies")
-        task12 = draw_to_button(mountain_gray, 155, 135, 370, 30, "Store")
+                    show_manager_screen = False
+
+        upgrade_screen_select = draw_to_button(mountain_gray, 5, 90, 410, 30, "Upgrades")
+        manager_screen_select = draw_to_button(mountain_gray, 105, 90, 410, 30, "Home")
+        task_screen_select = draw_to_button(mountain_gray, 205, 90, 410, 30, "Tasks")
+        trophy_screen_select = draw_to_button(mountain_gray, 10, 135, 370, 30, "Trophies")
+        store_screen_select = draw_to_button(mountain_gray, 155, 135, 370, 30, "Store")
 
 
     if not show_task_screen and not show_manager_screen and show_upgrade_screen and not show_ach_screen and not show_store_screen:
@@ -194,25 +199,25 @@ while running:
                 width, height = event.size
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = event.pos
-                if task8.collidepoint(mouse_pos):
+                if upgrade_screen_select.collidepoint(mouse_pos):
                     show_upgrade_screen = False
-                if task9.collidepoint(mouse_pos):
+                if manager_screen_select.collidepoint(mouse_pos):
                     show_manager_screen = True
                     show_upgrade_screen = False
-                if task10.collidepoint(mouse_pos):
+                if task_screen_select.collidepoint(mouse_pos):
                     show_task_screen = True
                     show_upgrade_screen = False
-                if task11.collidepoint(mouse_pos):
+                if trophy_screen_select.collidepoint(mouse_pos):
                     show_ach_screen = True
                     show_upgrade_screen = False
-                if task12.collidepoint(mouse_pos):
+                if store_screen_select.collidepoint(mouse_pos):
                     show_store_screen = True
                     show_upgrade_screen = False    
-        task8 = draw_to_button(mountain_gray, 5, 90, 410, 30, "Home")
-        task9 = draw_to_button(mountain_gray, 105, 90, 410, 30, "Managers")
-        task10 = draw_to_button(mountain_gray, 205, 90, 410, 30, "Tasks")
-        task11 = draw_to_button(mountain_gray, 10, 135, 370, 30, "Trophies")
-        task12 = draw_to_button(mountain_gray, 155, 135, 370, 30, "Store")
+        upgrade_screen_select = draw_to_button(mountain_gray, 5, 90, 410, 30, "Home")
+        manager_screen_select = draw_to_button(mountain_gray, 105, 90, 410, 30, "Managers")
+        task_screen_select = draw_to_button(mountain_gray, 205, 90, 410, 30, "Tasks")
+        trophy_screen_select = draw_to_button(mountain_gray, 10, 135, 370, 30, "Trophies")
+        store_screen_select = draw_to_button(mountain_gray, 155, 135, 370, 30, "Store")
 
 
     if not show_task_screen and not show_manager_screen and not show_upgrade_screen and show_ach_screen and not show_store_screen:
@@ -230,25 +235,25 @@ while running:
                 width, height = event.size
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = event.pos
-                if task8.collidepoint(mouse_pos):
+                if upgrade_screen_select.collidepoint(mouse_pos):
                     show_upgrade_screen = True
                     show_ach_screen = False
-                if task9.collidepoint(mouse_pos):
+                if manager_screen_select.collidepoint(mouse_pos):
                     show_manager_screen = True
                     show_ach_screen = False
-                if task10.collidepoint(mouse_pos):
+                if task_screen_select.collidepoint(mouse_pos):
                     show_task_screen = True
                     show_ach_screen = False
-                if task11.collidepoint(mouse_pos):
+                if trophy_screen_select.collidepoint(mouse_pos):
                     show_ach_screen = False
-                if task12.collidepoint(mouse_pos):
+                if store_screen_select.collidepoint(mouse_pos):
                     show_store_screen = True
                     show_ach_screen = False    
-        task8 = draw_to_button(mountain_gray, 5, 90, 410, 30, "Upgrades")
-        task9 = draw_to_button(mountain_gray, 105, 90, 410, 30, "Managers")
-        task10 = draw_to_button(mountain_gray, 205, 90, 410, 30, "Tasks")
-        task11 = draw_to_button(mountain_gray, 10, 135, 370, 30, "Home")
-        task12 = draw_to_button(mountain_gray, 155, 135, 370, 30, "Store")
+        upgrade_screen_select = draw_to_button(mountain_gray, 5, 90, 410, 30, "Upgrades")
+        manager_screen_select = draw_to_button(mountain_gray, 105, 90, 410, 30, "Managers")
+        task_screen_select = draw_to_button(mountain_gray, 205, 90, 410, 30, "Tasks")
+        trophy_screen_select = draw_to_button(mountain_gray, 10, 135, 370, 30, "Home")
+        store_screen_select = draw_to_button(mountain_gray, 155, 135, 370, 30, "Store")
 
 
     if not show_task_screen and not show_manager_screen and not show_upgrade_screen and not show_ach_screen and show_store_screen:
@@ -266,25 +271,25 @@ while running:
                 width, height = event.size
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = event.pos
-                if task8.collidepoint(mouse_pos):
+                if upgrade_screen_select.collidepoint(mouse_pos):
                     show_upgrade_screen = True
                     show_store_screen = False
-                if task9.collidepoint(mouse_pos):
+                if manager_screen_select.collidepoint(mouse_pos):
                     show_manager_screen = True
                     show_store_screen = False
-                if task10.collidepoint(mouse_pos):
+                if task_screen_select.collidepoint(mouse_pos):
                     show_task_screen = True
                     show_store_screen = False
-                if task11.collidepoint(mouse_pos):
+                if trophy_screen_select.collidepoint(mouse_pos):
                     show_ach_screen = True
                     show_store_screen = False
-                if task12.collidepoint(mouse_pos):
+                if store_screen_select.collidepoint(mouse_pos):
                     show_store_screen = False    
-        task8 = draw_to_button(mountain_gray, 5, 90, 410, 30, "Upgrades")
-        task9 = draw_to_button(mountain_gray, 105, 90, 410, 30, "Managers")
-        task10 = draw_to_button(mountain_gray, 205, 90, 410, 30, "Tasks")
-        task11 = draw_to_button(mountain_gray, 10, 135, 370, 30, "Trophies")
-        task12 = draw_to_button(mountain_gray, 155, 135, 370, 30, "Home")
+        upgrade_screen_select = draw_to_button(mountain_gray, 5, 90, 410, 30, "Upgrades")
+        manager_screen_select = draw_to_button(mountain_gray, 105, 90, 410, 30, "Managers")
+        task_screen_select = draw_to_button(mountain_gray, 205, 90, 410, 30, "Tasks")
+        trophy_screen_select = draw_to_button(mountain_gray, 10, 135, 370, 30, "Trophies")
+        store_screen_select = draw_to_button(mountain_gray, 155, 135, 370, 30, "Home")
     
     if score >= 100:
         display_score_value = f"{score:.0f}"
